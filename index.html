@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Тренажер: вирази і формули</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--tx:#1d2433;--mu:#5d6679;--ac:#3b5bdb;--acs:#e7ecff;--ok:#2b8a3e;--oks:#e3f6e8;--er:#c92a2a;--ers:#fde8e8;--bd:#d9deea;--wn:#a85d00;--wns:#fff1dc;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151d;--card:#1b2030;--tx:#e8ebf4;--mu:#9aa3b8;--ac:#8fa6ff;--acs:#27304f;--ok:#69db7c;--oks:#17301f;--er:#ff8787;--ers:#3a1d1d;--bd:#323a52;--wn:#ffc078;--wns:#3a2c14}}
+:root[data-theme="dark"]{--bg:#12151d;--card:#1b2030;--tx:#e8ebf4;--mu:#9aa3b8;--ac:#8fa6ff;--acs:#27304f;--ok:#69db7c;--oks:#17301f;--er:#ff8787;--ers:#3a1d1d;--bd:#323a52;--wn:#ffc078;--wns:#3a2c14}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5}
+.wrap{max-width:760px;margin:0 auto;padding:16px}
+h1{font-size:1.3rem;margin:8px 0 14px}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab{flex:1;padding:12px 4px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:12px;font-size:.95rem;font-weight:600;cursor:pointer}
+.tab.on{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:14px}
+.card h2{font-size:1.1rem;margin:0 0 6px}
+.card p{margin:6px 0;color:var(--mu)}
+.rule{background:var(--acs);border-radius:10px;padding:8px 12px;margin:8px 0}
+.ex{font-size:1.2rem;margin:8px 0;padding:10px 12px;border:1px dashed var(--bd);border-radius:10px;overflow-x:auto}
+.ex small{display:block;color:var(--mu);font-size:.85rem}
+.b{display:inline-block;width:1.5em;height:1.5em;line-height:1.5em;text-align:center;border-radius:50%;background:var(--ac);color:var(--bg);font-weight:700;font-size:.85em;margin-right:6px}
+table{border-collapse:collapse;width:100%;font-size:1rem}
+td,th{border:1px solid var(--bd);padding:6px 8px;text-align:left}
+th{background:var(--acs)}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:8px;position:sticky;bottom:0;padding:10px 0 calc(10px + env(safe-area-inset-bottom,0px));background:var(--bg)}
+.nav .btn{min-height:46px;min-width:110px;font-size:1rem}
+#pg{color:var(--mu);font-weight:600}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+select,.btn{font:inherit;padding:9px 12px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);cursor:pointer}
+.pri{background:var(--ac);color:var(--bg);border-color:var(--ac);font-weight:600}
+.stat{margin-left:auto;color:var(--mu);font-size:.95rem}
+.q{font-size:1.1rem;text-align:center;margin:10px 0 4px}
+.big{font-size:2rem;text-align:center;padding:10px 0;overflow-x:auto;white-space:nowrap}
+.ans{display:flex;align-items:center;justify-content:center;gap:10px;margin:8px 0 14px;font-size:1.2rem}
+.ans input{width:110px;height:48px;font-size:1.3rem;text-align:center;border:2px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx)}
+.ans input:focus{outline:none;border-color:var(--ac)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.opts button{font-size:1.3rem;padding:14px}
+.opts button:disabled{opacity:.45}
+.msg{padding:10px 14px;border-radius:10px;margin-top:10px;display:none}
+.msg.ok{display:block;background:var(--oks);color:var(--ok)}
+.msg.er{display:block;background:var(--ers);color:var(--er)}
+.msg.wn{display:block;background:var(--wns);color:var(--wn)}
+.sol{margin-top:10px;padding:12px;border-radius:10px;background:var(--acs);display:none;font-size:1.1rem}
+.hint{font-size:.9rem;color:var(--mu);text-align:center}
+h1{background:linear-gradient(90deg,#3b5bdb,#e8590c);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+.tab.on{background:linear-gradient(135deg,#3b5bdb,#7048e8);color:#fff;border-color:transparent}
+#p1>.card{--c:#3b5bdb;border-left:8px solid var(--c)}
+#p1>.card:nth-child(2){--c:#e8590c}
+#p1>.card:nth-child(3){--c:#2f9e44}
+#p1>.card:nth-child(4){--c:#9c36b5}
+#p1>.card h2{color:var(--c)}
+#p1>.card .rule{background:color-mix(in srgb,var(--c) 14%,var(--card))}
+#p1>.card .ex{border-color:var(--c)}
+#p1 th{background:color-mix(in srgb,var(--c) 18%,var(--card))}
+.b{color:#fff}.b1{background:#3b5bdb}.b2{background:#e8590c}.b3{background:#2f9e44}
+.k1,.k2,.k3{font-weight:700;border-radius:6px;padding:0 4px}
+.k1{background:rgba(59,91,219,.22)}.k2{background:rgba(232,89,12,.26)}.k3{background:rgba(47,158,68,.26)}
+#p2>.card{border-top:6px solid #e8590c}
+.big{color:var(--ac);background:var(--acs);border-radius:12px;margin:6px 0;font-weight:700}
+.opts button:nth-child(1){background:color-mix(in srgb,#3b5bdb 16%,var(--card))}
+.opts button:nth-child(2){background:color-mix(in srgb,#e8590c 16%,var(--card))}
+.opts button:nth-child(3){background:color-mix(in srgb,#2f9e44 16%,var(--card))}
+.opts button:nth-child(4){background:color-mix(in srgb,#9c36b5 16%,var(--card))}
+.go{background:#2f9e44;color:#fff;border-color:#2f9e44;font-weight:600}
+.yl{background:#ffd43b;color:#1d2433;border-color:#f59f00;font-weight:600}
+:root{--pk:#fff0f3}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--pk:#2e1f27}}
+:root[data-theme="dark"]{--pk:#2e1f27}
+#p2>.card{background:var(--pk)}
+.big:empty{display:none}
+.hide{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>🧮 Вирази і формули</h1>
+<div class="tabs">
+<button class="tab on" id="t1" onclick="showTab(1)">📘 Правила</button>
+<button class="tab" id="t2" onclick="showTab(2)">✏️ Тренажер</button>
+</div>
+
+<div id="p1">
+<div class="card"><h2>1. Числовий вираз</h2>
+<p>Запис із чисел, знаків дій і дужок. Результат усіх дій — <b>значення виразу</b>.</p>
+<div class="rule"><b>Порядок дій:</b><br><span class="b b1">1</span>дії в дужках<br><span class="b b2">2</span>множення і ділення — зліва направо<br><span class="b b3">3</span>додавання і віднімання — зліва направо</div>
+<div class="ex">20 − <span class="k1">(3 + 2)</span> · 4 : 2 = 20 − <span class="k2">5 · 4</span> : 2 = 20 − <span class="k2">20 : 2</span> = <span class="k3">20 − 10</span> = <b>10</b><small><span class="k1">дужки</span> → <span class="k2">· і :</span> → <span class="k3">+ і −</span></small></div></div>
+
+<div class="card"><h2>2. Буквений вираз</h2>
+<p>У виразі літери замінюють числа. Щоб знайти значення виразу, підставте число замість літери й виконайте дії за порядком.</p>
+<div class="rule">Запис <b><i>5x</i></b> означає <b><i>5 · x</i></b>, а <b><i>ab</i></b> означає <b><i>a · b</i></b>.</div>
+<div class="ex">5x + 3, якщо x = 4<br>5 · 4 + 3 = 20 + 3 = <b>23</b></div></div>
+
+<div class="card"><h2>3. Складання виразів</h2>
+<table><tr><th>Словами</th><th>Вираз</th></tr>
+<tr><td>сума a і b</td><td>a + b</td></tr>
+<tr><td>різниця a і b</td><td>a − b</td></tr>
+<tr><td>добуток a і b</td><td>a · b або ab</td></tr>
+<tr><td>частка a і b</td><td>a : b</td></tr>
+<tr><td>a збільшили на 5</td><td>a + 5</td></tr>
+<tr><td>a збільшили у 5 разів</td><td>5a</td></tr>
+<tr><td>a зменшили у 5 разів</td><td>a : 5</td></tr></table></div>
+
+<div class="card"><h2>4. Формули</h2>
+<p>Формула — це рівність, що записує правило буквами.</p>
+<table><tr><th>Формула</th><th>Що знаходимо</th></tr>
+<tr><td>P = 4a</td><td>периметр квадрата</td></tr>
+<tr><td>P = 2(a + b)</td><td>периметр прямокутника</td></tr>
+<tr><td>S = ab</td><td>площа прямокутника</td></tr>
+<tr><td>s = υt</td><td>шлях (швидкість × час)</td></tr>
+<tr><td>V = abc</td><td>об’єм прямокутного паралелепіпеда</td></tr></table>
+<div class="ex">S = ab, a = 6 см, b = 4 см<br>S = 6 · 4 = <b>24</b> (см²)</div></div>
+</div>
+
+<div id="p2" class="hide">
+<div class="card">
+<div class="row">
+<select id="kind" onchange="newTask()">
+<option value="all">Усі типи</option>
+<option value="num">Числові вирази</option>
+<option value="let">Буквені вирази</option>
+<option value="frm">Формули</option>
+<option value="cmp">Скласти вираз</option>
+</select>
+<span class="stat" id="stat"></span>
+</div>
+<div class="q" id="q"></div>
+<div class="big" id="big"></div>
+<div id="numAns">
+<div class="ans"><span id="pre"></span><input id="ai" inputmode="numeric" autocomplete="off" aria-label="Відповідь"><span id="unit"></span></div>
+<div class="hint">Порядок дій: дужки → · і : → + і −</div>
+<div class="row" style="justify-content:center;margin-top:12px"><button class="btn pri" onclick="check()">Перевірити</button></div>
+</div>
+<div class="opts hide" id="opts"></div>
+<div class="row" style="justify-content:center"><button class="btn yl" onclick="showSol()">Показати розв’язання</button><button class="btn go" onclick="newTask()">Наступний</button></div>
+<div class="msg" id="msg"></div>
+<div class="sol" id="sol"></div>
+</div>
+</div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[ri(0,a.length-1)];
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(p=>p[1]);
+
+/* покроковий обчислювач (для розв’язку й перевірки) */
+const tok=s=>s.match(/\d+|[()+−·:]/g);
+function op(t){let i=t.findIndex(x=>x==='·'||x===':');if(i<0)i=t.findIndex(x=>x==='+'||x==='−');
+ const a=+t[i-1],b=+t[i+1],o=t[i];t.splice(i-1,3,String(o==='·'?a*b:o===':'?a/b:o==='+'?a+b:a-b))}
+function steps(e){const t=tok(e),out=[t.join(' ')];
+ while(t.length>1){const c=t.indexOf(')');
+  if(c>=0){const o=t.lastIndexOf('(',c),sub=t.slice(o+1,c);if(sub.length===1)t.splice(o,3,sub[0]);else{op(sub);t.splice(o+1,c-o-1,...sub)}}
+  else op(t);out.push(t.join(' '))}
+ return out}
+const good=e=>!steps(e).some(s=>/[.\-]|NaN|Infinity/.test(s));
+const val=e=>+steps(e).pop();
+
+/* генератори */
+const NUM=[
+ ()=>`${ri(2,30)} + ${ri(2,9)} · ${ri(2,9)}`,
+ ()=>`(${ri(2,20)} + ${ri(2,20)}) · ${ri(2,9)}`,
+ ()=>`${ri(20,60)} − ${ri(2,9)} · ${ri(2,5)}`,
+ ()=>{const d=ri(2,9);return `${d*ri(2,9)} : ${d} + ${ri(2,30)}`},
+ ()=>`${ri(30,60)} − (${ri(2,10)} + ${ri(2,10)}) · ${ri(2,3)}`,
+ ()=>{const d=ri(2,6);return `${ri(10,40)} − ${d*ri(2,9)} : ${d} · ${ri(2,3)}`},
+ ()=>{const d=ri(2,5),y=ri(1,9);return `(${d*ri(2,9)+y} − ${y}) : ${d} + ${ri(1,9)}`},
+ ()=>`${ri(2,9)} · (${ri(10,30)} − ${ri(2,9)})`
+];
+function genNum(){let e;do e=pick(NUM)();while(!good(e)||val(e)>300);return{type:'num',q:'Знайдіть значення виразу:',big:e,e}}
+function genLet(){
+ const v=pick('abxymn'.split('')),k=ri(2,9),x=ri(2,9),c=ri(1,20),A=ri(2,9),B=ri(2,9),C=ri(1,15);let r;
+ do{r=pick([
+  {t:`${k}${v} + ${c}`,e:`${k} · ${x} + ${c}`,s:`${v} = ${x}`},
+  {t:`${k}${v} − ${c}`,e:`${k} · ${x} − ${c}`,s:`${v} = ${x}`},
+  {t:`(${v} + ${c}) · ${k}`,e:`(${x} + ${c}) · ${k}`,s:`${v} = ${x}`},
+  {t:`${k}a + b`,e:`${k} · ${A} + ${B}`,s:`a = ${A}, b = ${B}`},
+  {t:`ab − ${C}`,e:`${A} · ${B} − ${C}`,s:`a = ${A}, b = ${B}`}])}while(!good(r.e));
+ return{type:'let',q:`Знайдіть значення виразу, якщо ${r.s}:`,big:r.t,e:r.e}}
+function genFrm(){const a=ri(2,15),b=ri(2,12),c=ri(2,9),v=ri(3,90),t=ri(2,9);
+ const o=pick([
+  {q:`P = 4a — периметр квадрата. Знайдіть P, якщо a = ${a} см.`,e:`4 · ${a}`,u:'см'},
+  {q:`P = 2(a + b) — периметр прямокутника. Знайдіть P, якщо a = ${a} см, b = ${b} см.`,e:`2 · (${a} + ${b})`,u:'см'},
+  {q:`S = ab — площа прямокутника. Знайдіть S, якщо a = ${a} см, b = ${b} см.`,e:`${a} · ${b}`,u:'см²'},
+  {q:`s = υt — шлях. Знайдіть s, якщо υ = ${v} км/год, t = ${t} год.`,e:`${v} · ${t}`,u:'км'},
+  {q:`V = abc — об’єм. Знайдіть V, якщо a = ${a} см, b = ${b} см, c = ${c} см.`,e:`${a} · ${b} · ${c}`,u:'см³'}]);
+ return{type:'frm',big:'',...o}}
+const CMP=[
+ ['Сума чисел a і 7','a + 7',['a − 7','7a','a : 7']],
+ ['Різниця чисел b і 5','b − 5',['5 − b','b + 5','5b']],
+ ['Добуток чисел x і 4','4x',['x + 4','x − 4','x : 4']],
+ ['Число m збільшили на 8','m + 8',['m − 8','8m','m : 8']],
+ ['Число n зменшили у 3 рази','n : 3',['n − 3','3n','n + 3']],
+ ['Число y збільшили у 6 разів','6y',['y + 6','y − 6','y : 6']],
+ ['Частка чисел a і b','a : b',['a · b','a + b','a − b']],
+ ['На 5 більше за x','x + 5',['x − 5','5x','x : 5']],
+ ['На 3 менше від y','y − 3',['3 − y','y + 3','3y']],
+ ['Периметр квадрата зі стороною a','4a',['a + 4','a · a','a : 4']]];
+function genCmp(){const [q,c,w]=pick(CMP);return{type:'cmp',q:'Запишіть виразом: '+q,big:'',correct:c,opts:shuf([c,...w])}}
+
+let cur=null,tries=0,done=0,first=0;
+function showTab(n){[1,2].forEach(i=>{$('p'+i).classList.toggle('hide',n!==i);$('t'+i).classList.toggle('on',n===i)});if(n===2&&!cur)newTask()}
+function stat(){$('stat').textContent=`Розв’язано: ${done} · з першої спроби: ${first}`}
+function say(c,t){$('msg').className='msg '+c;$('msg').textContent=t}
+function newTask(){
+ let k=$('kind').value;if(k==='all')k=pick(['num','let','frm','cmp']);
+ cur={num:genNum,let:genLet,frm:genFrm,cmp:genCmp}[k]();cur.solved=false;tries=0;
+ $('q').textContent=cur.q;$('big').textContent=cur.big;
+ const isC=cur.type==='cmp';
+ $('numAns').classList.toggle('hide',isC);$('opts').classList.toggle('hide',!isC);
+ $('pre').textContent=cur.type==='frm'?'Відповідь:':'= ';$('unit').textContent=cur.u||'';
+ $('ai').value='';$('msg').className='msg';$('sol').style.display='none';
+ if(isC){$('opts').innerHTML='';cur.opts.forEach(o=>{const b=document.createElement('button');b.className='btn';b.textContent=o;b.onclick=()=>pickOpt(b,o);$('opts').appendChild(b)})}
+ else $('ai').focus();
+ stat();
+}
+function win(){done++;if(tries===1)first++;cur.solved=true;stat()}
+function pickOpt(b,o){if(cur.solved)return;tries++;
+ if(o===cur.correct){win();say('ok','✅ Правильно! '+cur.correct+'. Натисніть «Наступний».')}
+ else{b.disabled=true;say('er','Невірно, спробуйте ще раз.')}}
+function check(){
+ if(cur.solved)return newTask();
+ const s=$('ai').value.trim();
+ if(!/^\d+$/.test(s))return say('wn','Введіть ціле невід’ємне число.');
+ tries++;
+ if(+s===val(cur.e)){win();say('ok','✅ Правильно! Натисніть «Перевірити» для наступного прикладу.')}
+ else say('er','Невірно. Виконуйте дії за порядком: дужки, потім · і :, потім + і −.');
+}
+function showSol(){
+ const el=$('sol');
+ if(cur.type==='cmp')el.textContent='Правильна відповідь: '+cur.correct;
+ else{const st=steps(cur.e);el.textContent=(cur.type==='num'?'':'Підставляємо числа: ')+st.join(' = ')+(cur.u?' '+cur.u:'')}
+ el.style.display='block';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!$('p2').classList.contains('hide')&&cur&&cur.type!=='cmp')check()});
+
+/* правила по кроках */
+const cards=[...document.querySelectorAll('#p1>.card')];let st=0;
+const nav=document.createElement('div');nav.className='nav';
+nav.innerHTML='<button class="btn" id="bk">← Назад</button><span id="pg"></span><button class="btn pri" id="nx">Далі →</button>';
+$('p1').appendChild(nav);
+function step(i){st=Math.max(0,Math.min(cards.length-1,i));cards.forEach((c,k)=>c.classList.toggle('hide',k!==st));$('pg').textContent=(st+1)+' / '+cards.length;$('bk').style.visibility=st?'visible':'hidden';$('nx').textContent=st===cards.length-1?'До тренажера ✏️':'Далі →';window.scrollTo(0,0)}
+$('bk').onclick=()=>step(st-1);$('nx').onclick=()=>st===cards.length-1?showTab(2):step(st+1);
+step(0);
+</script>
+</body>
+</html>
